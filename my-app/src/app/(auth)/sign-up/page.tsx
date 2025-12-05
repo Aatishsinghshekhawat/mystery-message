@@ -35,12 +35,12 @@ function SignUpPage() {
   const [isCheckingUsername, setIsCheckingUsername] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  // ✅ Correct useDebounceValue – destructure the first value
+  //  Correct useDebounceValue – destructure the first value
   const debounced = useDebounceCallback(setUsername, 300)
 
   const router = useRouter()
 
-  // ✅ Properly typed useForm
+  //  Properly typed useForm
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(signUPSchema),
     defaultValues: {
@@ -78,15 +78,15 @@ function SignUpPage() {
   const onSubmit = async (data: SignUpFormValues) => {
     setIsSubmitting(true)
     try {
-      // ✅ Important: use absolute path with leading slash
+      //  Important: use absolute path with leading slash
       const response = await axios.post<ApiResponse>("/api/sign-up", data)
 
       toast("Success", {
         description: response.data.message,
       })
 
-      // ✅ Use the form data username (guaranteed latest)
-      router.replace(`/verify/${data.username}`)
+      //  Use the form data username (guaranteed latest)
+      router.replace(`/verify/${username}`)
     } catch (error) {
       console.error("Error during sign up:", error)
       const axiosError = error as AxiosError<ApiResponse>
@@ -111,7 +111,7 @@ function SignUpPage() {
           <p className="mb-4">Sign-Up to start your anonymous adventure</p>
         </div>
 
-        {/* ✅ This Form is from "@/components/ui/form", not react-hook-form */}
+        {/*  This Form is from "@/components/ui/form", not react-hook-form */}
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}

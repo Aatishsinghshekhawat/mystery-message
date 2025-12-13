@@ -3,6 +3,7 @@ import mongoose, {Schema, Document} from "mongoose";
 
 
 export interface Message extends Document{
+    id: string;
     content : string;
     createdAt: Date
 }

@@ -68,7 +68,6 @@ export async function GET(request: Request) {
     }
 
     const userId = user.id;
-    const {acceptMessages} = await request.json();
     try {
         const foundUser = await UserModel.findById(userId)
         if (!foundUser) {

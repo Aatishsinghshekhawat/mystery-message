@@ -13,39 +13,39 @@ export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
         const queryParam = {
-             username : searchParams.get("username")
-            }
-            const result = UsernameQuerySchema.safeParse(queryParam);
+            username: searchParams.get("username")
+        }
+        const result = UsernameQuerySchema.safeParse(queryParam);
 
-            if(!result.success) {
-                const usernameEroor = result.error.format().username?._errors || [];
-                return Response.json({
-                    success: false,
-                    message: usernameEroor?.length > 0 ? usernameEroor.join(', ') : "Invalid query parameter"
-                }, { status: 400 })
-            }
+        if (!result.success) {
+            const usernameError = result.error.format().username?._errors || [];
+            return Response.json({
+                success: false,
+                message: usernameError?.length > 0 ? usernameError.join(', ') : "Invalid query parameter"
+            }, { status: 400 })
+        }
 
         const { username } = result.data;
-        const existingVerifiedUser = await UserModel.findOne({ username, isVerified: true });
+        const existingVerifiedUser = await UserModel.findOne({ username });
 
         if (existingVerifiedUser) {
             return Response.json({
-                    success: false,
-                    message:  "Username is already taken"
-                }, { status: 400 })
+                success: false,
+                message: "Username is already taken"
+            }, { status: 400 })
         }
 
         return Response.json({
-                    success: false,
-                    message:  "Username is Unique"
-                }, { status: 400 })
+            success: true,
+            message: "Username is Unique"
+        }, { status: 200 })
     } catch (error) {
         console.error("Error checking username uniqueness:", error);
         return Response.json({
             success: false,
             message: "Error checking username uniqueness"
         },
-        { status: 500 }
-    )
-   }
+            { status: 500 }
+        )
+    }
 }

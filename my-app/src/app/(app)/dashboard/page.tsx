@@ -15,10 +15,10 @@ import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
-const dashboard = () => {
+const Dashboard = () => {
   const [messages, setMessages] = useState<Message[]>([])
-  const [isLoading, setisLoading] = useState(false)
-  const [isSwitchLoading, setisSwitchLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isSwitchLoading, setIsSwitchLoading] = useState(false)
   const handleDeleteMessage = (messageId: string) => {
     setMessages(messages.filter((message) => message._id.toString() !== messageId))
   }
@@ -33,7 +33,7 @@ const dashboard = () => {
   const acceptingMessages = watch("acceptMessages")
 
   const fetchAcceptingMessage = useCallback(async () => {
-    setisSwitchLoading(true)
+    setIsSwitchLoading(true)
     try {
       const response = await axios.get<ApiResponse>('/api/accept-messages');
       setValue('acceptMessages', response.data.isAcceptingMessage ?? false);
@@ -41,13 +41,13 @@ const dashboard = () => {
       const axiosError = error as AxiosError<ApiResponse>;
       toast.error(axiosError.response?.data.message || 'Error fetching accepting message status');
     } finally {
-      setisSwitchLoading(false);
+      setIsSwitchLoading(false);
     }
   }, [setValue])
 
   const fetchMessages = useCallback(async (refresh: boolean = false) => {
-    setisLoading(true)
-    setisSwitchLoading(false)
+    setIsLoading(true)
+    setIsSwitchLoading(false)
     try {
 
       const response = await axios.get<ApiResponse>('/api/get-messages');
@@ -61,10 +61,10 @@ const dashboard = () => {
       const axiosError = error as AxiosError<ApiResponse>;
       toast.error(axiosError.response?.data.message || 'Error fetching accepting message status');
     } finally {
-      setisLoading(false);
-      setisSwitchLoading(false);
+      setIsLoading(false);
+      setIsSwitchLoading(false);
     }
-  }, [setMessages, setisLoading,])
+  }, [setMessages, setIsLoading,])
 
 
   useEffect(() => {
@@ -77,7 +77,7 @@ const dashboard = () => {
   const handleSwitchChange = async () => {
     try {
       const response = await axios.post<ApiResponse>('/api/accept-messages', {
-        AcceptMessages: !acceptingMessages
+        acceptMessages: !acceptingMessages
       })
       setValue('acceptMessages', !acceptingMessages);
       toast(response.data.message)
@@ -95,7 +95,12 @@ const dashboard = () => {
 
   const { username } = session?.user as User;
 
-  const baseUrl = `${window.location.protocol}//${window.location.host}`;
+  const [baseUrl, setBaseUrl] = useState('');
+
+  useEffect(() => {
+    setBaseUrl(`${window.location.protocol}//${window.location.host}`);
+  }, []);
+
   const profileUrl = `${baseUrl}/u/${username}`;
 
   const copyToClipboard = () => {
@@ -163,4 +168,4 @@ const dashboard = () => {
   )
 }
 
-export default dashboard
+export default Dashboard

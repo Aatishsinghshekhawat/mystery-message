@@ -52,7 +52,7 @@ function SignUpPage() {
 
   useEffect(() => {
     const checkUsernameUnique = async () => {
-      if (! username) return
+      if (!username) return
 
       setIsCheckingUsername(true)
       setUsernameMessage("")
@@ -133,10 +133,10 @@ function SignUpPage() {
                         debounced(e.target.value)
                       }}
                     />
-                    
+
                   </FormControl>
                   {isCheckingUsername && <Loader2 className="animate-spin" />}
-                  <p className={`text-sm ${usernameMessage === "Username is Unique" ? 'text-green-500': 'text-red-500'}`} >test</p>
+
                   {/* Username check message */}
                   <FormDescription>
                     {isCheckingUsername

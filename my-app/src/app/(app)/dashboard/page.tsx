@@ -19,6 +19,11 @@ const Dashboard = () => {
   const [messages, setMessages] = useState<Message[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isSwitchLoading, setIsSwitchLoading] = useState(false)
+  const [baseUrl, setBaseUrl] = useState('');
+
+  useEffect(() => {
+    setBaseUrl(`${window.location.protocol}//${window.location.host}`);
+  }, []);
   const handleDeleteMessage = (messageId: string) => {
     setMessages(messages.filter((message) => message._id.toString() !== messageId))
   }
@@ -95,11 +100,7 @@ const Dashboard = () => {
 
   const { username } = session?.user as User;
 
-  const [baseUrl, setBaseUrl] = useState('');
 
-  useEffect(() => {
-    setBaseUrl(`${window.location.protocol}//${window.location.host}`);
-  }, []);
 
   const profileUrl = `${baseUrl}/u/${username}`;
 
@@ -126,7 +127,6 @@ const Dashboard = () => {
 
       <div className="mb-4">
         <Switch
-          {...register('acceptMessages')}
           checked={acceptingMessages}
           onCheckedChange={handleSwitchChange}
           disabled={isSwitchLoading}

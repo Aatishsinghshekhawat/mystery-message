@@ -18,7 +18,7 @@ export async function POST(request: Request) {
         )
     }
 
-    const userId = user.id;
+    const userId = user._id;
     const { acceptMessages } = await request.json();
 
     try {
@@ -67,7 +67,7 @@ export async function GET(request: Request) {
         )
     }
 
-    const userId = user.id;
+    const userId = user._id;
     try {
         const foundUser = await UserModel.findById(userId)
         if (!foundUser) {

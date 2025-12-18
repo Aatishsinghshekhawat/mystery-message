@@ -46,13 +46,13 @@ function SignInPage() {
       password: data.password,
     })
 
-    if(result?.error){
-      toast("Login failed " ,{
-        description : "Incorrect email or password"
+    if (result?.error) {
+      toast("Login failed ", {
+        description: "Incorrect email or password"
       })
     }
 
-    if(result?.url){
+    if (result?.url) {
       router.replace("/dashboard")
     }
   }
@@ -73,7 +73,7 @@ function SignInPage() {
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-6"
           >
-           
+
             <FormField
               name="identifier"
               control={form.control}
@@ -111,19 +111,19 @@ function SignInPage() {
               )}
             />
 
-            <Button type="submit"  className="w-full">
-              Signin
+            <Button type="submit" className="w-full">
+              Sign In
             </Button>
           </form>
 
           <div className="text-center mt-4">
             <p>
-              Already have an account?{" "}
+              Don't have an account?{" "}
               <Link
-                href="/sign-in"
+                href="/sign-up"
                 className="text-blue-600 hover:text-blue-800"
               >
-                Sign-in
+                Sign-up
               </Link>
             </p>
           </div>

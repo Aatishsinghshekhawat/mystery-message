@@ -29,6 +29,13 @@ export default function SendMessage() {
   const username = params.username
 
   const [isLoading, setIsLoading] = useState(false)
+  const [isSuggestLoading, setIsSuggestLoading] = useState(false)
+  const [suggestedMessages, setSuggestedMessages] = useState<string[]>([
+    "What's your favorite movie?",
+    "Do you have any pets?",
+    "What's your dream job?"
+  ])
+  const [searchError, setSearchError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof MessageSchema>>({
     resolver: zodResolver(MessageSchema),
@@ -38,6 +45,25 @@ export default function SendMessage() {
   })
 
   const messageContent = form.watch('content')
+
+  const handleMessageClick = (message: string) => {
+    form.setValue('content', message)
+  }
+
+  const fetchSuggestedMessages = async () => {
+    setIsSuggestLoading(true)
+    setSearchError(null)
+    try {
+      const response = await axios.post('/api/suggest-messages')
+      const messages = response.data.match(/[^||]+/g) || []
+      setSuggestedMessages(messages)
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+      setSearchError("Failed to fetch messages. Please try again.")
+    } finally {
+      setIsSuggestLoading(false)
+    }
+  }
 
   const onSubmit = async (data: z.infer<typeof MessageSchema>) => {
     setIsLoading(true)
@@ -97,6 +123,40 @@ export default function SendMessage() {
           </div>
         </form>
       </Form>
+
+      <div className="space-y-4 my-8">
+        <div className="space-y-2">
+          <Button
+            onClick={fetchSuggestedMessages}
+            className="my-4"
+            disabled={isSuggestLoading}
+          >
+            Suggest Messages
+          </Button>
+          <p>Click on any message below to select it.</p>
+        </div>
+        <Card>
+          <CardHeader>
+            <h3 className="text-xl font-semibold">Messages</h3>
+          </CardHeader>
+          <CardContent className="flex flex-col space-y-4">
+            {searchError ? (
+              <p className="text-red-500">{searchError}</p>
+            ) : (
+              suggestedMessages.map((message, index) => (
+                <Button
+                  key={index}
+                  variant="outline"
+                  className="mb-2"
+                  onClick={() => handleMessageClick(message)}
+                >
+                  {message}
+                </Button>
+              ))
+            )}
+          </CardContent>
+        </Card>
+      </div>
 
       <Separator className="my-6" />
       <div className="text-center">

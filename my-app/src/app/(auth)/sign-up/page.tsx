@@ -59,7 +59,7 @@ function SignUpPage() {
 
       try {
         const response = await axios.get<ApiResponse>(
-          `/api/auth/check-username-unique?username=${username}`,
+          `/api/check-username-unique?username=${username}`,
         )
         setUsernameMessage(response.data.message)
       } catch (error) {

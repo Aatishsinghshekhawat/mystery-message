@@ -40,27 +40,40 @@ function SignInPage() {
 
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
-    const result = await signIn('credentials', {
-      redirect: false,
-      identifier: data.identifier,
-      password: data.password,
-    })
-
-    if (result?.error) {
-      toast("Login failed ", {
-        description: "Incorrect email or password"
+    try {
+      const result = await signIn('credentials', {
+        redirect: false,
+        identifier: data.identifier,
+        password: data.password,
       })
-    }
 
-    if (result?.url) {
-      router.replace("/dashboard")
+      if (result?.error) {
+        if (result.error === 'CredentialsSignin') {
+          toast.error('Login Failed', {
+            description: 'Incorrect username or password',
+          });
+        } else {
+          toast.error('Error', {
+            description: result.error,
+          });
+        }
+      }
+
+      if (result?.url) {
+        router.replace("/dashboard")
+      }
+    } catch (error) {
+      console.error("Sign-in error:", error);
+      toast.error("Error", {
+        description: "An unexpected error occurred during sign-in."
+      });
     }
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
-        <div className="text-center">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100" suppressHydrationWarning>
+      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md" suppressHydrationWarning>
+        <div className="text-center" suppressHydrationWarning>
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
             Join Mystery Message
           </h1>
@@ -78,11 +91,11 @@ function SignInPage() {
               name="identifier"
               control={form.control}
               render={({ field }) => (
-                <FormItem>
+                <FormItem suppressHydrationWarning>
                   <FormLabel>Email/Username</FormLabel>
                   <FormControl>
                     <Input
-                      type="email / username"
+                      type="text"
                       placeholder="Email or Username"
                       {...field}
                     />
@@ -97,7 +110,7 @@ function SignInPage() {
               name="password"
               control={form.control}
               render={({ field }) => (
-                <FormItem>
+                <FormItem suppressHydrationWarning>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input

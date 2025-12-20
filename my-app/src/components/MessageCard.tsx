@@ -25,12 +25,20 @@ import { ApiResponse } from "@/types/apiResponse"
 import { toast } from "sonner"
 import axios from "axios"
 
+import { useEffect, useState } from "react"
+
 type MessageCardProps = {
   message: Message;
   onMessageDelete: (messageId: string) => void;
 }
 
 const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
   const handleDeleteConfirm = async () => {
     const response = await axios.delete<ApiResponse>(`/api/delete-message/${message._id}`)
     toast(response.data.message)
@@ -61,7 +69,7 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
           </AlertDialog>
         </div>
         <div className="text-sm">
-          {new Date(message.createdAt).toLocaleString()}
+          {isClient ? new Date(message.createdAt).toLocaleString() : ''}
         </div>
       </CardHeader>
       <CardContent>

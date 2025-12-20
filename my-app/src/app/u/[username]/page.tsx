@@ -59,7 +59,9 @@ export default function SendMessage() {
       setSuggestedMessages(messages)
     } catch (error) {
       console.error('Error fetching messages:', error);
-      setSearchError("Failed to fetch messages. Please try again.")
+      const axiosError = error as AxiosError<ApiResponse>;
+      const errorMessage = axiosError.response?.data.message || "The message suggestion service is currently experiencing high demand and has reached its temporary limit. Please try again later or write your own unique message!";
+      setSearchError(errorMessage)
     } finally {
       setIsSuggestLoading(false)
     }

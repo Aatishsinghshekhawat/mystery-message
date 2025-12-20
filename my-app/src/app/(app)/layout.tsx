@@ -7,11 +7,9 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <AuthProvider>
-      <div className="flex flex-col min-h-screen">
-        <Navbar />
-        {children}
-      </div>
-    </AuthProvider>
+    <div className="flex flex-col min-h-screen" suppressHydrationWarning>
+      <Navbar />
+      {children}
+    </div>
   );
 }

@@ -16,38 +16,38 @@ import Autoplay from "embla-carousel-autoplay"
 
 const Home = () => {
   return (
-    <div>
+    <div suppressHydrationWarning>
       <main className='grow flex flex-col items-center justify-center px-4 md:px-24 py-12'>
         <section className='text-center mb-8 md:mb-12'>
           <h1 className='text-3xl md:text-5xl font-bold'>Dive into the world of Anonymous </h1>
           <p className='mt-3 md:mt-4 text-base md:text-lg' >Explore Mystery-Message - Where your identity remains Secret.</p>
         </section>
         <Carousel
-       plugins={[Autoplay({ delay: 3000 })]}
-        className="w-full max-w-xs">
-      <CarouselContent>
-        {
-          messages.map((message, index) => (
-            <CarouselItem key={index}>
-            <div className="p-1">
-              <Card>
-                <CardHeader>
-                  {
-                    message.title
-                  }
-                </CardHeader>
-                <CardContent className="flex aspect-square items-center justify-center p-6">
-                  <span className="text-lg font-semibold">{message.content}</span>
-                </CardContent>
-              </Card>
-            </div>
-          </CarouselItem>
-          ))
-        }
-      </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
-    </Carousel>
+          plugins={[Autoplay({ delay: 3000 })]}
+          className="w-full max-w-xs">
+          <CarouselContent>
+            {
+              messages.map((message, index) => (
+                <CarouselItem key={index}>
+                  <div className="p-1">
+                    <Card>
+                      <CardHeader>
+                        {
+                          message.title
+                        }
+                      </CardHeader>
+                      <CardContent className="flex aspect-square items-center justify-center p-6">
+                        <span className="text-lg font-semibold">{message.content}</span>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              ))
+            }
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
       </main>
     </div>
   )

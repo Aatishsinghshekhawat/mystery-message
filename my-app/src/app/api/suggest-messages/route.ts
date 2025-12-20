@@ -17,7 +17,13 @@ export async function POST(req: Request) {
         });
 
         return new Response(text);
-    } catch (error) {
+    } catch (error: any) {
+        if (error.status === 429) {
+            return Response.json({
+                success: false,
+                message: "Gemini API limit reached. Please try again later."
+            }, { status: 429 });
+        }
         console.error('An unexpected error occurred:', error);
         return Response.json({
             success: false,

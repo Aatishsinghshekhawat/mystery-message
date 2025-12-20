@@ -95,7 +95,7 @@ const Dashboard = () => {
   }
 
   if (!session || !session.user) {
-    return <div>Please Login</div>
+    return <div suppressHydrationWarning>Please Login</div>
   }
 
   const { username } = session?.user as User;
@@ -109,7 +109,7 @@ const Dashboard = () => {
     toast.success('Profile URL has been copied to clipboard.');
   };
   return (
-    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
+    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl" suppressHydrationWarning>
       <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
 
       <div className="mb-4">

@@ -91,7 +91,6 @@ src/
 This project was built to demonstrate proficiency in building **Production-Grade Next.js applications**. It showcases:
 - Implementation of **Complex Authentication Flows**.
 - Integration of **Large Language Models (LLMs)** into user-facing features.
-- Handling **Edge Cases in Hydration** and Server-Client synchronization.
 - Writing **Extensible and Type-Safe Code** with TypeScript and Zod.
 
 ---

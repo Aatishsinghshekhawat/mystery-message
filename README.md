@@ -10,7 +10,7 @@
 - **User Dashboard**: A personal space for users to manage messages, toggle their "Accept Messages" status, and copy their unique profile link.
 - **Responsive UI/UX**: Built with **Tailwind CSS v4** and **Shadcn UI** for a seamless experience across all devices.
 - **Real-time Feedback**: Interactive elements with **Sonner** toasts and **Lucide** icons.
-- **Email Integration**: Verification emails sent via **Resend** and styled with **React Email**.
+- **Email Integration**: Verification emails sent via **Nodemailer** (Gmail) and styled with **React Email**.
 
 ---
 
@@ -28,7 +28,7 @@
 - **Database**: MongoDB with Mongoose ODM
 - **Auth**: NextAuth.js (Credentials Provider)
 - **AI**: Google Generative AI (Gemini SDK)
-- **Email**: Resend API
+- **Email**: Nodemailer (Gmail)
 
 ---
 
@@ -38,7 +38,7 @@
 - Node.js 18.x or later
 - MongoDB Atlas account (for database)
 - Gemini API Key
-- Resend API Key
+- Gmail App Password (for email services)
 
 ### Installation
 
@@ -58,8 +58,9 @@
    ```env
    MONGODB_URI=your_mongodb_uri
    NEXTAUTH_SECRET=your_nextauth_secret
-   GOOGLE_GENERATIVE_AI_API_KEY=your_gemini_api_key
-   RESEND_API_KEY=your_resend_api_key
+   Gemini_API_KEY=your_gemini_api_key
+   EMAIL_USER=your_gmail_address
+   EMAIL_PASS=your_gmail_app_password
    ```
 
 4. **Run the development server:**
